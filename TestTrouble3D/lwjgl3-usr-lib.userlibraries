@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="Cp1255" standalone="no"?>
+<eclipse-userlibraries version="2">
+    <library name="LWJGL3" systemlibrary="false">
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-assimp-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-assimp.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-assimp-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-bgfx-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-bgfx.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-bgfx-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-egl-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-egl.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-egl-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-glfw-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-glfw.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-glfw-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-jawt-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-jawt.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-jawt-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-jemalloc-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-jemalloc.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-jemalloc-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-lmdb-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-lmdb.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-lmdb-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nanovg-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-nanovg.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nanovg-sources.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-natives-windows.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nfd-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-nfd.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nfd-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nuklear-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-nuklear.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-nuklear-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-openal-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-openal.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-openal-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opencl-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-opencl.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opencl-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opengl-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-opengl.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opengl-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opengles-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-opengles.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-opengles-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-openvr-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-openvr.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-openvr-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-ovr-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-ovr.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-ovr-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-par-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-par.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-par-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-sse-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-sse.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-sse-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-stb-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-stb.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-stb-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-tinyexr-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-tinyexr.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-tinyexr-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-tinyfd-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-tinyfd.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-tinyfd-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-vulkan-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-vulkan.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-vulkan-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-xxhash-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-xxhash.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-xxhash-sources.jar"/>
+        <archive javadoc="jar:file:/C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-yoga-javadoc.jar!/" path="/TestTrouble3D/lwjgl3/lwjgl-yoga.jar" source="C:/Users/Itamar/workspace/TestTrouble3D/lwjgl3/lwjgl-yoga-sources.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-assimp-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-bgfx-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-glfw-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-jemalloc-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-lmdb-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-nanovg-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-nfd-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-nuklear-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-openal-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-opengles-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-opengl-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-openvr-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-ovr-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-par-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-sse-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-stb-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-tinyexr-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-tinyfd-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-xxhash-natives-windows.jar"/>
+        <archive path="/TestTrouble3D/lwjgl3/lwjgl-yoga-natives-windows.jar"/>
+    </library>
+</eclipse-userlibraries>
