@@ -4,8 +4,10 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
+import org.testtrouble3d.game.engine.utils.Utils;
 import org.testtrouble3d.game.engine.window.Window;
 
+import java.io.File;
 import java.nio.*;
 
 import static org.lwjgl.glfw.Callbacks.*;
@@ -15,7 +17,13 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Renderer {
-	//private ShaderProgram shaderProgram;
+	static{
+		final String dir = System.getProperty("user.dir");
+		shadersPath = dir + "/src/org/testtrouble3d/game/engine/renderer/shader/";
+	}
+	
+	private final static String shadersPath;
+	private ShaderProgram shaderProgram;
 	public Renderer(){
 		
 	}
@@ -25,7 +33,11 @@ public class Renderer {
 	}
 	
 	public void init() throws Exception {
-
+		
+	    shaderProgram = new ShaderProgram();
+	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex1.vs"));
+	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment.fs"));
+	    shaderProgram.link();
 	}
 
 	public void clear() {

@@ -44,12 +44,7 @@ public class GameEngine implements Runnable {
 
 	protected void gameLoop() {
 		window.show();
-		// This line is critical for LWJGL's interoperation with GLFW's
-		// OpenGL context, or any context that is managed externally.
-		// LWJGL detects the context that is current in the current thread,
-		// creates the GLCapabilities instance and makes the OpenGL
-		// bindings available for use.
-		GL.createCapabilities();
+
 		float lastTimeStamp = 0;
 		float currentTimeStamp =(float) glfwGetTime();
 		float interval = 0;
@@ -69,8 +64,10 @@ public class GameEngine implements Runnable {
 		gameLogic.render(window);	
 	}
 
-	protected void init() {
+	protected void init() throws Exception {
+		//WINDOW NEEDS TO BE THE FIRST ONE INITIALIZED!
 		window.init();
+		gameLogic.init();
 	}
 
 	protected void cleanup(){
