@@ -56,7 +56,6 @@ public class GameEngine implements Runnable {
 		    update(interval);
 		    render();
 		}
-		
 	}
 
 	
@@ -71,7 +70,8 @@ public class GameEngine implements Runnable {
 	}
 
 	protected void cleanup(){
-		window.cleanup();	
+		window.cleanup();
+		gameLogic.cleanup();
 	}
 	protected void input() {
 		// Poll for window events. The key callback above will only be
