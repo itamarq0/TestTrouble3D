@@ -27,20 +27,18 @@ public class Renderer {
 	}
 	
 	public Renderer(){
-		renderables = new ArrayList<Renderable>();
+
 	}
 	
-	public void render(Window window) {
-		 clear();
+	public void render(Window window, Renderable entity) {
+		clear();
 		shaderProgram.bind();
 		
-		for(Renderable entity: renderables){
-			entity.render(shaderProgram);
-		}
-		
+		entity.render(shaderProgram);
+
 		shaderProgram.unbind();
 		
-		glfwSwapBuffers(window.getHandle());
+
 	}
 	
 	public void init() throws Exception {
@@ -48,33 +46,21 @@ public class Renderer {
 	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex1.vs"));
 	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment1.fs"));
 	    shaderProgram.link();
-	    
-	    Renderable tri = new Triangle(
-	    	0.0f,  0.5f, 0.0f,
-	    	-0.5f, -0.5f, 0.0f,
-	    	0.5f, -0.5f, 0.0f
-	    );
-	    renderables.add(tri);
-	    
-		for(Renderable entity: renderables){
-			entity.init();
-		}
 	}
+
 	
 	public void cleanup(){
 		if (shaderProgram != null) {
 			shaderProgram.cleanup();
 		}
-	    for(Renderable entity: renderables){
-	    	entity.cleanUp();
-	    }
+
 	}
 
 	public void clear() {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 	}
 	
-	private List<Renderable> renderables;
+
 	private final static String shadersPath;
 	private ShaderProgram shaderProgram;
 }
