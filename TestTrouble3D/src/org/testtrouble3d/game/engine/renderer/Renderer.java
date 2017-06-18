@@ -38,17 +38,19 @@ public class Renderer {
 	    // Update projection Matrix
 	    Matrix4f projectionMatrix = MatrixUtils.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
 	    shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+	    shaderProgram.setUniform("texture_sampler", 0);
 		entity.render(shaderProgram);
 		shaderProgram.unbind();
 	}
 	
 	public void init() throws Exception {
 	    shaderProgram = new ShaderProgram();
-	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex4.vs"));
-	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment2.fs"));
+	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex5.vs"));
+	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment3.fs"));
 	    shaderProgram.link();
 	    shaderProgram.createUniform("projectionMatrix");
 	    shaderProgram.createUniform("worldMatrix");
+	    shaderProgram.createUniform("texture_sampler");
 	}
 
 	
