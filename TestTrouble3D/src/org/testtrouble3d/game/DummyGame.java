@@ -3,11 +3,12 @@ package org.testtrouble3d.game;
 
 import org.testtrouble3d.game.engine.IGameLogic;
 import org.testtrouble3d.game.engine.renderer.Renderer;
+import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
-import org.testtrouble3d.game.engine.renderer.renderables.Triangle;
-import org.testtrouble3d.game.engine.window.Window;
 
+import org.testtrouble3d.game.engine.window.Window;
+import org.joml.Matrix4f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -35,22 +36,27 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void init() throws Exception {
 		renderer.init();
-	    Renderable tri = new Triangle(
-	    	0.0f,  0.5f, 0.0f,
-	    	-0.5f, -0.5f, 0.0f,
-	    	0.5f, -0.5f, 0.0f
-		);
-	    //renderables.add(tri);
+
 	    float[] positions = new float[]{
-			-0.5f,  0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			 0.5f,  0.5f, 0.0f,
-			-0.5f, -0.5f, 0.0f,
-			 0.5f, -0.5f, 0.0f,
-	    };
-	    Mesh mesh = new Mesh(positions);
-	    renderables.add(mesh);
+            -0.5f,  0.5f, -1.05f,
+            -0.5f, -0.5f, -1.05f,
+             0.5f, -0.5f, -1.05f,
+             0.5f,  0.5f, -1.05f,
+        };
+        int[] indices = new int[]{
+            0, 1, 3, 3, 1, 2,
+        };
+        float[] colors = new float[]{
+    	    0.5f, 0.0f, 0.0f,
+    	    0.0f, 0.5f, 0.0f,
+    	    0.0f, 0.0f, 0.5f,
+    	    0.0f, 0.5f, 0.5f,
+    	};
+	    Mesh mesh = new Mesh(positions,colors,indices);
+	    GameItem item = new GameItem(mesh);
+	    item.init();
+	    renderables.add(item);
+	    
 	}
 	@Override
 	public void input(Window window) {
@@ -77,6 +83,7 @@ public class DummyGame implements IGameLogic {
 			glViewport(0, 0, window.getWidth(), window.getHeight());
 			window.setResized(false);
 		}
+		
 		window.setClearColor(color, color, color, 0.0f);
 		for(Renderable entity: renderables){
 			renderer.render(window,entity);
