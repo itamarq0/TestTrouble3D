@@ -3,7 +3,7 @@ import org.joml.Matrix4f;
 import org.joml.Vector3f;
 import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
 import org.testtrouble3d.game.engine.utils.MatrixUtils;
-public class GameItem implements Renderable {
+public class GameItem implements IRenderable {
 
     private final Mesh mesh;
 

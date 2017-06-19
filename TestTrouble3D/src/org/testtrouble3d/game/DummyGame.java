@@ -6,7 +6,7 @@ import org.testtrouble3d.game.engine.renderer.Renderer;
 import org.testtrouble3d.game.engine.renderer.camera.Camera;
 import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
-import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
+import org.testtrouble3d.game.engine.renderer.renderables.IRenderable;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
 import org.testtrouble3d.game.engine.window.KeyboardInput;
 import org.testtrouble3d.game.engine.window.MouseInput;
@@ -32,9 +32,7 @@ import static org.lwjgl.system.MemoryUtil.*;
 public class DummyGame implements IGameLogic {
 	static {
 		final String dir = System.getProperty("user.dir");
-		
 		texturesPath = dir + "/src/org/testtrouble3d/game/engine/renderer/textures/";
-
 	}
 	private static final String texturesPath;
 	private static final float CAMERA_POS_STEP = 4.0f;
@@ -42,11 +40,11 @@ public class DummyGame implements IGameLogic {
 	private int direction = 0;
 	private float color = 0.0f;
 	private final Renderer renderer;
-	private List<Renderable> renderables;
+	private List<IRenderable> renderables;
 	private Vector3f cameraInc;
 	public DummyGame() {
 		renderer = new Renderer();
-		renderables = new ArrayList<Renderable>();
+		renderables = new ArrayList<IRenderable>();
 		cameraInc = new Vector3f();
 	}
 	@Override
@@ -142,7 +140,6 @@ public class DummyGame implements IGameLogic {
 	    GameItem item = new GameItem(mesh);
 	    item.init();
 	    renderables.add(item);
-	    
 	}
 	@Override
 	public void input(Window window, MouseInput mouseInput,KeyboardInput keyboardInput) {
@@ -185,7 +182,6 @@ public class DummyGame implements IGameLogic {
 	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
 	        cameraInc.y * CAMERA_POS_STEP * interval,
 	        cameraInc.z * CAMERA_POS_STEP * interval);
-
 	    // Update camera based on mouse            
 	    if (mouseInput.isRightButtonPressed()) {
 	        Vector2f rotVec = mouseInput.getDisplVec();
@@ -200,7 +196,7 @@ public class DummyGame implements IGameLogic {
 		}
 		
 		window.setClearColor(color, color, color, 0.0f);
-		for(Renderable entity: renderables){
+		for(IRenderable entity: renderables){
 			renderer.render(window,entity);
 		}
 		glfwSwapBuffers(window.getHandle());
@@ -208,7 +204,7 @@ public class DummyGame implements IGameLogic {
 	@Override
 	public void cleanup() {
 		renderer.cleanup();
-	    for(Renderable entity: renderables){
+	    for(IRenderable entity: renderables){
 	    	entity.cleanUp();
 	    }
 	}

@@ -5,7 +5,7 @@ import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
 import org.testtrouble3d.game.engine.renderer.camera.Camera;
-import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
+import org.testtrouble3d.game.engine.renderer.renderables.IRenderable;
 import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
 import org.testtrouble3d.game.engine.utils.MatrixUtils;
 import org.testtrouble3d.game.engine.utils.Transformation;
@@ -44,7 +44,7 @@ public class Renderer {
 	    shaderProgram.createUniform("texture_sampler");
 	}
 	
-	public void render(Window window, Renderable entity) {
+	public void render(Window window, IRenderable entity) {
 		clear();
 	    shaderProgram.bind();
 	    // Update projection Matrix

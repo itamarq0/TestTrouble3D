@@ -13,7 +13,7 @@ import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
 
 
-public class Mesh implements Renderable  {
+public class Mesh implements IRenderable  {
 
     private final int vaoId;
     private final int posVboId;
