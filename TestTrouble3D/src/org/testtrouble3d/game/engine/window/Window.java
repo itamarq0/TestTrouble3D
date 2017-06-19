@@ -15,7 +15,6 @@ import static org.lwjgl.system.MemoryStack.*;
 import static org.lwjgl.system.MemoryUtil.*;
 
 public class Window {
-	public final int NUM_OF_KEYS = 1024;
 	// Constructors
 	public Window(String windowName,int width,int height,boolean vsync){
 		// Init fields
@@ -24,11 +23,6 @@ public class Window {
 		this.vsync = vsync;
 		this.resized = false;
 		this.windowName = windowName;
-		this.keys = new boolean[1024];
-		// Set all keys to not pressed
-		for(int i=0; i< NUM_OF_KEYS ; i++){
-			keys[i] = false;
-		}
 	}
 	// Helpers
 	public void init(){
@@ -49,18 +43,7 @@ public class Window {
 		this.handle = glfwCreateWindow(this.width, this.height, windowName, NULL, NULL);
 		if ( this.handle == NULL )
 			throw new RuntimeException("Failed to create the GLFW window");
-		
-		// Setup a key callback. It will be called every time a key is pressed, repeated or released.
-		glfwSetKeyCallback(this.handle, (window, key, scancode, action, mods) -> {
-			if ( key == GLFW_KEY_ESCAPE && action == GLFW_RELEASE )
-				glfwSetWindowShouldClose(window, true); // We will detect this in the rendering loop
-			if(action == GLFW_RELEASE ){
-				keys[key] = false;
-			}
-			if(action == GLFW_PRESS){
-				keys[key] = true;
-			}
-		});
+
 		// Get the thread stack and push a new frame
 		try ( MemoryStack stack = stackPush() ) {
 			IntBuffer pWidth = stack.mallocInt(1); // int*
@@ -94,11 +77,7 @@ public class Window {
 		GL.createCapabilities();
 		glEnable(GL_DEPTH_TEST);
 	}
-	
-	// Mutators
-	public void setKeyState(int keyCode,boolean state){
-		keys[keyCode] = state;
-	}
+
 	public void show(){
 		// Make the window visible
 		glfwShowWindow(handle);
@@ -125,15 +104,11 @@ public class Window {
 	public boolean shouldClose(){
 		return glfwWindowShouldClose(handle);
 	}
-	public boolean isKeyPressed(int keyCode) {
-		return this.keys[keyCode];
-	}
 	public boolean isResized() {
 		return this.resized;
 	}
 	public void setResized(boolean b) {
 		this.resized = b;
-		
 	}
 	public void setClearColor(float color, float color2 , float color3, float f) {
 		// Set the clear color
@@ -147,13 +122,8 @@ public class Window {
 	private boolean vsync;
 	private boolean resized;
 	private String windowName;
-	//private clearColor;
-	//TODO: Use Enum instead of boolean?
-	private boolean[] keys;
-	public void update() {
-		// TODO Auto-generated method stub
-		
-	}
+
+
 
 
 

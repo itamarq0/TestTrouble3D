@@ -8,6 +8,7 @@ import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
+import org.testtrouble3d.game.engine.window.KeyboardInput;
 import org.testtrouble3d.game.engine.window.MouseInput;
 import org.testtrouble3d.game.engine.window.Window;
 import org.joml.Matrix4f;
@@ -144,27 +145,27 @@ public class DummyGame implements IGameLogic {
 	    
 	}
 	@Override
-	public void input(Window window, MouseInput mouseInput) {
+	public void input(Window window, MouseInput mouseInput,KeyboardInput keyboardInput) {
 
 		cameraInc.set(0, 0, 0);
-	    if (window.isKeyPressed(GLFW_KEY_W)) {
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_W)) {
 	        cameraInc.z = -1;
-	    } else if (window.isKeyPressed(GLFW_KEY_S)) {
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_S)) {
 	        cameraInc.z = 1;
 	    }
-	    if (window.isKeyPressed(GLFW_KEY_A)) {
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_A)) {
 	        cameraInc.x = -1;
-	    } else if (window.isKeyPressed(GLFW_KEY_D)) {
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_D)) {
 	        cameraInc.x = 1;
 	    }
-	    if (window.isKeyPressed(GLFW_KEY_Z)) {
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_Z)) {
 	        cameraInc.y = -1;
-	    } else if (window.isKeyPressed(GLFW_KEY_X)) {
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_X)) {
 	        cameraInc.y = 1;
 	    }
 	}
 	@Override
-	public void update(float interval, MouseInput mouseInput) {
+	public void update(float interval, MouseInput mouseInput,KeyboardInput keyboardInput) {
 		color += direction * 0.01f;
 		if (color > 1) {
 			color = 1.0f;

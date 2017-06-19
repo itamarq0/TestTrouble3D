@@ -1,5 +1,6 @@
 package org.testtrouble3d.game.engine;
 
+import org.testtrouble3d.game.engine.window.KeyboardInput;
 import org.testtrouble3d.game.engine.window.MouseInput;
 import org.testtrouble3d.game.engine.window.Window;
 
@@ -24,6 +25,7 @@ public class GameEngine implements Runnable {
 		this.window = new Window(windowTitle, width, height, vsSync);
 		this.gameLogic = gameLogic;
 		this.mouseInput = new MouseInput();
+		this.keyboardInput = new KeyboardInput();
 	}
 	
 	public void start() {
@@ -70,6 +72,7 @@ public class GameEngine implements Runnable {
 		window.init();
 		gameLogic.init();
 		mouseInput.init(window);
+		keyboardInput.init(window);
 	}
 
 	protected void cleanup(){
@@ -81,14 +84,15 @@ public class GameEngine implements Runnable {
 		// invoked during this call.
 		glfwPollEvents();
 		mouseInput.input(window);
-		gameLogic.input(window, mouseInput);
+		gameLogic.input(window, mouseInput, keyboardInput);
 	}
 	protected void update(float interval) {
-		gameLogic.update(interval, mouseInput);
+		gameLogic.update(interval, mouseInput, keyboardInput);
 	}
 
 	//private final Thread gameLoopThread;
 	private Window window;
 	private MouseInput mouseInput;
+	private KeyboardInput keyboardInput;
 	private IGameLogic gameLogic;
 }
