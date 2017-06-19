@@ -8,8 +8,11 @@ import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
+import org.testtrouble3d.game.engine.window.MouseInput;
 import org.testtrouble3d.game.engine.window.Window;
 import org.joml.Matrix4f;
+import org.joml.Vector2f;
+import org.joml.Vector3f;
 import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
@@ -32,14 +35,18 @@ public class DummyGame implements IGameLogic {
 		texturesPath = dir + "/src/org/testtrouble3d/game/engine/renderer/textures/";
 
 	}
-	private static String texturesPath;
+	private static final String texturesPath;
+	private static final float CAMERA_POS_STEP = 4.0f;
+	private static final int MOUSE_SENSITIVITY = 45;
 	private int direction = 0;
 	private float color = 0.0f;
 	private final Renderer renderer;
 	private List<Renderable> renderables;
+	private Vector3f cameraInc;
 	public DummyGame() {
 		renderer = new Renderer();
 		renderables = new ArrayList<Renderable>();
+		cameraInc = new Vector3f();
 	}
 	@Override
 	public void init() throws Exception {
@@ -137,17 +144,27 @@ public class DummyGame implements IGameLogic {
 	    
 	}
 	@Override
-	public void input(Window window) {
-		if ( window.isKeyPressed(GLFW_KEY_UP) ) {
-			direction = 1;
-		} else if ( window.isKeyPressed(GLFW_KEY_DOWN) ) {
-			direction = -1;
-		} else {
-			direction = 0;
-		}
+	public void input(Window window, MouseInput mouseInput) {
+
+		cameraInc.set(0, 0, 0);
+	    if (window.isKeyPressed(GLFW_KEY_W)) {
+	        cameraInc.z = -1;
+	    } else if (window.isKeyPressed(GLFW_KEY_S)) {
+	        cameraInc.z = 1;
+	    }
+	    if (window.isKeyPressed(GLFW_KEY_A)) {
+	        cameraInc.x = -1;
+	    } else if (window.isKeyPressed(GLFW_KEY_D)) {
+	        cameraInc.x = 1;
+	    }
+	    if (window.isKeyPressed(GLFW_KEY_Z)) {
+	        cameraInc.y = -1;
+	    } else if (window.isKeyPressed(GLFW_KEY_X)) {
+	        cameraInc.y = 1;
+	    }
 	}
 	@Override
-	public void update(float interval) {
+	public void update(float interval, MouseInput mouseInput) {
 		color += direction * 0.01f;
 		if (color > 1) {
 			color = 1.0f;
@@ -163,7 +180,16 @@ public class DummyGame implements IGameLogic {
 		item.setPosition(0.0f, 0.0f, -2.0f);
 		item.setRotation(rotation, rotation, rotation);
 		Camera camera = renderer.getCamera();
-		camera.movePosition(0.0f * interval, 0.0f * interval, 1.0f * interval);
+	    // Update camera position
+	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
+	        cameraInc.y * CAMERA_POS_STEP * interval,
+	        cameraInc.z * CAMERA_POS_STEP * interval);
+
+	    // Update camera based on mouse            
+	    if (mouseInput.isRightButtonPressed()) {
+	        Vector2f rotVec = mouseInput.getDisplVec();
+	        camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY * interval, rotVec.y * MOUSE_SENSITIVITY * interval, 0);
+	    }
 	}
 	@Override
 	public void render(Window window) {

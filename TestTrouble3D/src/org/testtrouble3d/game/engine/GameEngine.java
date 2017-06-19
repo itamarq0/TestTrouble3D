@@ -1,5 +1,6 @@
 package org.testtrouble3d.game.engine;
 
+import org.testtrouble3d.game.engine.window.MouseInput;
 import org.testtrouble3d.game.engine.window.Window;
 
 import org.lwjgl.*;
@@ -20,8 +21,9 @@ public class GameEngine implements Runnable {
 	
 	public GameEngine(String windowTitle, int width, int height, boolean vsSync, IGameLogic gameLogic) throws Exception {
 		//gameLoopThread = new Thread(this, "GAME_LOOP_THREAD");
-		window = new Window(windowTitle, width, height, vsSync);
+		this.window = new Window(windowTitle, width, height, vsSync);
 		this.gameLogic = gameLogic;
+		this.mouseInput = new MouseInput();
 	}
 	
 	public void start() {
@@ -67,6 +69,7 @@ public class GameEngine implements Runnable {
 		//WINDOW NEEDS TO BE THE FIRST ONE INITIALIZED!
 		window.init();
 		gameLogic.init();
+		mouseInput.init(window);
 	}
 
 	protected void cleanup(){
@@ -77,13 +80,15 @@ public class GameEngine implements Runnable {
 		// Poll for window events. The key callback above will only be
 		// invoked during this call.
 		glfwPollEvents();
-		gameLogic.input(window);
+		mouseInput.input(window);
+		gameLogic.input(window, mouseInput);
 	}
 	protected void update(float interval) {
-		gameLogic.update(interval);
+		gameLogic.update(interval, mouseInput);
 	}
 
 	//private final Thread gameLoopThread;
 	private Window window;
+	private MouseInput mouseInput;
 	private IGameLogic gameLogic;
 }
