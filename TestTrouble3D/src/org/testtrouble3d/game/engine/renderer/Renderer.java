@@ -4,6 +4,7 @@ import org.lwjgl.*;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
 import org.lwjgl.system.*;
+import org.testtrouble3d.game.engine.renderer.camera.Camera;
 import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
 import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
 import org.testtrouble3d.game.engine.utils.MatrixUtils;
@@ -29,7 +30,18 @@ public class Renderer {
 	}
 	
 	public Renderer(){
-
+		camera = new Camera();
+	}
+	
+	public void init() throws Exception {
+	    shaderProgram = new ShaderProgram();
+	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex6.vs"));
+	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment3.fs"));
+	    shaderProgram.link();
+	    shaderProgram.createUniform("projectionMatrix");
+	    shaderProgram.createUniform("worldMatrix");
+	    shaderProgram.createUniform("viewMatrix");
+	    shaderProgram.createUniform("texture_sampler");
 	}
 	
 	public void render(Window window, Renderable entity) {
@@ -38,26 +50,20 @@ public class Renderer {
 	    // Update projection Matrix
 	    Matrix4f projectionMatrix = MatrixUtils.getProjectionMatrix(FOV, window.getWidth(), window.getHeight(), Z_NEAR, Z_FAR);
 	    shaderProgram.setUniform("projectionMatrix", projectionMatrix);
+	    Matrix4f viewMatrix = MatrixUtils.getViewMatrix(camera.getPosition(), camera.getRotation());
+	    shaderProgram.setUniform("viewMatrix", viewMatrix);
 	    shaderProgram.setUniform("texture_sampler", 0);
 		entity.render(shaderProgram);
 		shaderProgram.unbind();
 	}
-	
-	public void init() throws Exception {
-	    shaderProgram = new ShaderProgram();
-	    shaderProgram.createVertexShader(Utils.loadResource(shadersPath + "vertexshaders/vertex5.vs"));
-	    shaderProgram.createFragmentShader(Utils.loadResource(shadersPath + "fragmentshaders/fragment3.fs"));
-	    shaderProgram.link();
-	    shaderProgram.createUniform("projectionMatrix");
-	    shaderProgram.createUniform("worldMatrix");
-	    shaderProgram.createUniform("texture_sampler");
-	}
 
-	
 	public void cleanup(){
 		if (shaderProgram != null) {
 			shaderProgram.cleanup();
 		}
+	}
+	public Camera getCamera(){
+		return camera;
 	}
 
 	public void clear() {
@@ -67,6 +73,7 @@ public class Renderer {
     private static final float FOV = (float) Math.toRadians(60.0f);
     private static final float Z_NEAR = 0.01f;
     private static final float Z_FAR = 1000.f;
+    private final Camera camera;
 	private final static String shadersPath;
 	private ShaderProgram shaderProgram;
 }

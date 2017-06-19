@@ -3,6 +3,7 @@ package org.testtrouble3d.game;
 
 import org.testtrouble3d.game.engine.IGameLogic;
 import org.testtrouble3d.game.engine.renderer.Renderer;
+import org.testtrouble3d.game.engine.renderer.camera.Camera;
 import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.renderables.Renderable;
@@ -161,6 +162,8 @@ public class DummyGame implements IGameLogic {
 		}
 		item.setPosition(0.0f, 0.0f, -2.0f);
 		item.setRotation(rotation, rotation, rotation);
+		Camera camera = renderer.getCamera();
+		camera.movePosition(0.0f * interval, 0.0f * interval, 1.0f * interval);
 	}
 	@Override
 	public void render(Window window) {
