@@ -2,6 +2,7 @@ package org.testtrouble3d.game.engine.renderer.renderables;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.Set;
 
 import static org.lwjgl.opengl.GL11.*;
 import static org.lwjgl.opengl.GL13.*;
@@ -14,39 +15,20 @@ import org.testtrouble3d.game.engine.renderer.textures.Texture;
 
 
 public class Mesh implements IRenderable  {
+	
+	private enum MeshVBOAttachment{
+		TEXTURE_COORDS,
+		INDICIES,
+		TEXTURE
+	}
 
     private final int vaoId;
     private final int posVboId;
     private final int idxVboId;
     private final int textVboId;
+    private Set<MeshVBOAttachment> attachments;
     private final int vertexCount;
     private Texture texture;
-
-/*    public Mesh(float[] positions) {
-        FloatBuffer verticesBuffer = null;
-        try {
-            vertexCount = positions.length / 3;
-            verticesBuffer = MemoryUtil.memAllocFloat(positions.length);
-            verticesBuffer.put(positions).flip();
-            
-            
-
-            vaoId = glGenVertexArrays();
-            glBindVertexArray(vaoId);
-
-            vboId = glGenBuffers();
-            glBindBuffer(GL_ARRAY_BUFFER, vboId);
-            glBufferData(GL_ARRAY_BUFFER, verticesBuffer, GL_STATIC_DRAW);            
-            glVertexAttribPointer(0, 3, GL_FLOAT, false, 0, 0);
-            glBindBuffer(GL_ARRAY_BUFFER, 0);
-
-            glBindVertexArray(0);         
-        } finally {
-            if (verticesBuffer  != null) {
-                MemoryUtil.memFree(verticesBuffer);
-            }
-        }
-    }*/
     
     public Mesh(float[] positions,  float[] textCoords, int[] indices , Texture texture) {
     	this.texture = texture;
