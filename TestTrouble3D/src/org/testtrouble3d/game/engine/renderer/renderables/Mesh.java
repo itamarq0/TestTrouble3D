@@ -2,6 +2,8 @@ package org.testtrouble3d.game.engine.renderer.renderables;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 import static org.lwjgl.opengl.GL11.*;
@@ -23,14 +25,15 @@ public class Mesh implements IRenderable  {
 	}
 
     private final int vaoId;
+    private final Map<String,Integer> attachments;
     private final int posVboId;
     private final int idxVboId;
     private final int textVboId;
-    private Set<MeshVBOAttachment> attachments;
     private final int vertexCount;
     private Texture texture;
     
     public Mesh(float[] positions,  float[] textCoords, int[] indices , Texture texture) {
+    	attachments = new HashMap<>();
     	this.texture = texture;
         FloatBuffer verticesBuffer = null;
         IntBuffer indicesBuffer = null;
@@ -69,7 +72,7 @@ public class Mesh implements IRenderable  {
         	
             glBindBuffer(GL_ARRAY_BUFFER, 0);
             
-            glBindVertexArray(0);         
+            glBindVertexArray(0);
         } finally {
             if (verticesBuffer  != null) {
                 MemoryUtil.memFree(verticesBuffer);
@@ -81,6 +84,34 @@ public class Mesh implements IRenderable  {
             	MemoryUtil.memFree(textCoordBuffer);
             }
         }
+    }
+    
+    public void attachVBO(float[] floats ,int stride, String vboName,int vertexAttrib){
+        FloatBuffer floatBuffer = null;
+        try {
+        	floatBuffer = MemoryUtil.memAllocFloat(floats.length);
+        	floatBuffer.put(floats).flip();
+
+            glBindVertexArray(vaoId);
+        	// VBO
+            int vboId = glGenBuffers();
+        	glBindBuffer(GL_ARRAY_BUFFER, vboId);
+        	glBufferData(GL_ARRAY_BUFFER, floatBuffer, GL_STATIC_DRAW);
+        	glVertexAttribPointer(vertexAttrib, stride, GL_FLOAT, false, 0, 0);
+            glBindBuffer(GL_ARRAY_BUFFER, 0);
+            
+            glBindVertexArray(0);
+            attachments.put(vboName, vboId);
+        	
+        }finally{
+        	if (floatBuffer  != null) {
+                MemoryUtil.memFree(floatBuffer);
+            }
+    	}
+    }
+    
+    public void setTexture(Texture texture){
+    	this.texture = texture;
     }
 
     public int getVaoId() {
