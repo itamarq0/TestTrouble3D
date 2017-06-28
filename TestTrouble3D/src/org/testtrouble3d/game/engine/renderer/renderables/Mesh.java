@@ -17,12 +17,6 @@ import org.testtrouble3d.game.engine.renderer.textures.Texture;
 
 
 public class Mesh implements IRenderable  {
-	
-	private enum MeshVBOAttachment{
-		TEXTURE_COORDS,
-		INDICIES,
-		TEXTURE
-	}
 
     private final int vaoId;
     private final Map<String,Integer> attachments;

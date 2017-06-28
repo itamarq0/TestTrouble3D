@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 
@@ -23,6 +24,16 @@ public class Utils {
 			e.printStackTrace();
 		}
 		return new String(encoded, Charset.defaultCharset());	
+	}
+	
+	public static float[] listToArray(List<Float> numbers){
+		float[] arr = new float[numbers.size()];
+		int i = 0;
+		for(Float num : numbers){
+			arr[i] = num;
+			i++;
+		}
+		return arr;
 	}
 	
 
