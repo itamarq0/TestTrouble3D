@@ -2,6 +2,8 @@ package org.testtrouble3d.game;
 
 
 import org.testtrouble3d.game.engine.IGameLogic;
+import org.testtrouble3d.game.engine.heightmaps.HeightMap;
+import org.testtrouble3d.game.engine.heightmaps.HeightMapGenerator;
 import org.testtrouble3d.game.engine.renderer.Renderer;
 import org.testtrouble3d.game.engine.renderer.camera.Camera;
 import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
@@ -33,8 +35,10 @@ public class DummyGame implements IGameLogic {
 	static {
 		final String dir = System.getProperty("user.dir");
 		texturesPath = dir + "/src/org/testtrouble3d/game/engine/renderer/textures/";
+		heightMapsPath = dir + "/src/org/testtrouble3d/game/engine/heightmaps/";
 	}
 	private static final String texturesPath;
+	private static final String heightMapsPath;
 	private static final float CAMERA_POS_STEP = 4.0f;
 	private static final int MOUSE_SENSITIVITY = 45;
 	private int direction = 0;
@@ -138,8 +142,12 @@ public class DummyGame implements IGameLogic {
         Texture texture = new Texture(texturesPath + "cube_texture.png");
 	    Mesh mesh = new Mesh(positions,textCoords,indices,texture);
 	    GameItem item = new GameItem(mesh);
+	    Mesh heightmap = HeightMapGenerator.generateHeightMap(heightMapsPath + "heightmap.png", texturesPath + "grass.jpg");
+	    heightmap.init();
 	    item.init();
+
 	    renderables.add(item);
+	    renderables.add(heightmap);
 	}
 	@Override
 	public void input(Window window, MouseInput mouseInput,KeyboardInput keyboardInput) {
@@ -176,7 +184,7 @@ public class DummyGame implements IGameLogic {
 		    rotation = 0;
 		}
 		item.setPosition(0.0f, 0.0f, -2.0f);
-		item.setRotation(rotation, rotation, rotation);
+		//item.setRotation(rotation, rotation, rotation);
 		Camera camera = renderer.getCamera();
 	    // Update camera position
 	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,

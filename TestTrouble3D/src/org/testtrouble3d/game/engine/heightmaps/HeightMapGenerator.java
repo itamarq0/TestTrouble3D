@@ -23,9 +23,11 @@ import static org.lwjgl.system.MemoryStack.stackPush;
 import java.nio.ByteBuffer;
 import java.nio.IntBuffer;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
@@ -36,8 +38,8 @@ public class HeightMapGenerator {
 
 	
 	private static final float START_X = -0.5f;
-	private static float maxY = 3.0f;
-	private static float minY = 0.0f;
+	private static float maxY = 5.0f;
+	private static float minY = -5.0f;
 	private static final float START_Z = -0.5f;
 	private static final int MAX_COLOR = 255 * 255 * 255;
 
@@ -53,8 +55,6 @@ public class HeightMapGenerator {
 		| ((0xFF & g) << 8) | (0xFF & b);
 		return minY + Math.abs(maxY - minY) * ((float) argb / (float) MAX_COLOR);
 	}
-
-
 	
 	public static Mesh generateHeightMap(String heightmapPath, String texturePath){
 		try ( MemoryStack stack = stackPush() ) {
@@ -70,10 +70,11 @@ public class HeightMapGenerator {
 			List<Float> positions = new ArrayList<>();
 			List<Float> textCoords = new ArrayList<>();
 			List<Integer> indices = new ArrayList<>();
+			List<Float> normals = new ArrayList<>();
 			
-			int incx = 3;
-			int incz = 3;
-			int textInc = 3;
+			int incx = 1;
+			int incz = 1;
+			int textInc = 30;
 			
 			for (int row = 0; row < height; row++) {
 				for (int col = 0; col < width; col++) {
@@ -81,8 +82,12 @@ public class HeightMapGenerator {
 					positions.add(START_X + col * incx); // x
 					positions.add(getHeight(col, row, width, heightMapData)); //y
 					positions.add(START_Z + row * incz); //z
+					// Init normal entries
+					normals.add(0.0f);
+					normals.add(0.0f);
+					normals.add(0.0f);
 					// Set texture coordinates
-					textCoords.add((float) textInc * (float) col / (float) width);
+					textCoords.add((float) textInc * (float) col / (float) width) ;
 					textCoords.add((float) textInc * (float) row / (float) height);
 					// Create indices
 					if (col < width - 1 && row < height - 1) {
@@ -99,12 +104,73 @@ public class HeightMapGenerator {
 					}
 				}
 			}
+			Iterator<Integer> ite = indices.iterator();
+			Vector3f vertex1 = new Vector3f(0,0,0);
+			Vector3f vertex2 = new Vector3f(0,0,0);
+			Vector3f vertex3 = new Vector3f(0,0,0);
+			Vector3f edge1 = new Vector3f(0,0,0);
+			Vector3f edge2 = new Vector3f(0,0,0);
+			Vector3f normal = new Vector3f(0,0,0);
+			Float num = 0.0f;
+			while(ite.hasNext()){
+				int triIndex1 = ite.next();
+				vertex1.x = positions.get(3*triIndex1);
+				vertex1.y = positions.get(3*triIndex1+1);
+				vertex1.z = positions.get(3*triIndex1+2);
+				int triIndex2 = ite.next();
+				vertex2.x = positions.get(3*triIndex2);
+				vertex2.y = positions.get(3*triIndex2+1);
+				vertex2.z = positions.get(3*triIndex2+2);
+				int triIndex3 = ite.next();
+				vertex3.x = positions.get(3*triIndex3);
+				vertex3.y = positions.get(3*triIndex3+1);
+				vertex3.z = positions.get(3*triIndex3+2);
+				edge1 = vertex3.add(vertex1.negate());
+				edge2 = vertex3.add(vertex2.negate());
+				normal = edge1.cross(edge2).normalize();
+				num = normals.get(3*triIndex1);
+				num += normal.x;
+				num = normals.get(3*triIndex1+1);
+				num += normal.y;
+				num = normals.get(3*triIndex1+1);
+				num += normal.z;
+				num = normals.get(3*triIndex2);
+				num += normal.x;
+				num = normals.get(3*triIndex2+1);
+				num += normal.y;
+				num = normals.get(3*triIndex2+1);
+				num += normal.z;
+				num = normals.get(3*triIndex3);
+				num += normal.x;
+				num = normals.get(3*triIndex3+1);
+				num += normal.y;
+				num = normals.get(3*triIndex3+1);
+				num += normal.z;
+			}
+			Iterator<Float> itePos = normals.iterator();
+			Float verX = 0.0f;
+			Float verY = 0.0f;
+			Float verZ = 0.0f;
+			while(itePos.hasNext()){
+				verX = itePos.next();
+				verY = itePos.next();
+				verZ = itePos.next();
+				normal.x = verX;
+				normal.y = verY;
+				normal.z = verZ;
+				normal.normalize();
+				verX = normal.x;
+				verY = normal.y;
+				verZ = normal.z;
+			}
 			
 			float[] posArr = Utils.listToArray(positions);
 			float[] textCoordsArr = Utils.listToArray(textCoords);
 			int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
+			float[] normalsArr = Utils.listToArray(normals);
 			Texture texture = new Texture(texturePath);
-			return Mesh();
+			// TODO: Add normal field to constructor
+			return new Mesh(posArr,textCoordsArr,indicesArr,texture);
 		}	
 	}
 	
