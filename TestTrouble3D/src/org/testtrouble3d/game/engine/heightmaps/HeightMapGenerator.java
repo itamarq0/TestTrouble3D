@@ -31,21 +31,23 @@ import org.joml.Vector3f;
 import org.lwjgl.system.MemoryStack;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
+import org.testtrouble3d.game.engine.utils.ImageData;
 import org.testtrouble3d.game.engine.utils.Utils;
 
 public class HeightMapGenerator {
 
 
 	
-	private static final float START_X = -0.5f;
+	private static float startX = -0.5f;
 	private static float maxY = 5.0f;
 	private static float minY = -5.0f;
-	private static final float START_Z = -0.5f;
+	private static float startZ = -0.5f;
 	private static final int MAX_COLOR = 255 * 255 * 255;
 
 	private HeightMapGenerator(){
 		
 	}
+	
 	private static float getHeight(int x, int z, int width, ByteBuffer heightMapData){
 		byte r = heightMapData.get(x * 4 + 0 + z * 4 * width);
 		byte g = heightMapData.get(x * 4 + 1 + z * 4 * width);
@@ -56,7 +58,39 @@ public class HeightMapGenerator {
 		return minY + Math.abs(maxY - minY) * ((float) argb / (float) MAX_COLOR);
 	}
 	
-	public static Mesh generateHeightMap(String heightmapPath, String texturePath){
+	public static void init(){
+		
+	}
+	
+	public static void setStartX(float startX){
+		HeightMapGenerator.startX = startX;
+	}
+	
+	public static void setStartZ(float startZ){
+		HeightMapGenerator.startZ = startZ;
+	}
+	
+	public static void setMaxY(float maxY){
+		HeightMapGenerator.maxY = maxY;
+	}
+	
+	public static void setMinY(float minY){
+		HeightMapGenerator.minY = minY;
+	}
+	
+	public static float getMaxY(){
+		return HeightMapGenerator.maxY;
+	}
+	
+	public static float getMinY(){
+		return HeightMapGenerator.minY;
+	}
+	
+	public static int getMaxColor(){
+		return HeightMapGenerator.MAX_COLOR;
+	}
+	
+/*	public static Mesh generateHeightMapMesh(String heightmapPath, String texturePath){
 		try ( MemoryStack stack = stackPush() ) {
 			IntBuffer w = stack.mallocInt(1);
 			IntBuffer h = stack.mallocInt(1);
@@ -79,9 +113,9 @@ public class HeightMapGenerator {
 			for (int row = 0; row < height; row++) {
 				for (int col = 0; col < width; col++) {
 					// Create vertex for current position
-					positions.add(START_X + col * incx); // x
+					positions.add(startX + col * incx); // x
 					positions.add(getHeight(col, row, width, heightMapData)); //y
-					positions.add(START_Z + row * incz); //z
+					positions.add(startZ + row * incz); //z
 					// Init normal entries
 					normals.add(0.0f);
 					normals.add(0.0f);
@@ -172,6 +206,56 @@ public class HeightMapGenerator {
 			// TODO: Add normal field to constructor
 			return new Mesh(posArr,textCoordsArr,indicesArr,texture);
 		}	
+	}*/
+	
+	public static Mesh generateHeightMapMesh(ImageData heightMapImageData, Texture texture){
+		ByteBuffer heightMapData = heightMapImageData.getImageBuffer();
+		int width = heightMapImageData.getWidth();
+		int height = heightMapImageData.getHeight();
+		List<Float> positions = new ArrayList<>();
+		List<Float> textCoords = new ArrayList<>();
+		List<Integer> indices = new ArrayList<>();
+		List<Float> normals = new ArrayList<>();
+		
+		int incx = 1;
+		int incz = 1;
+		int textInc = 30;
+		
+		for (int row = 0; row < height; row++) {
+			for (int col = 0; col < width; col++) {
+				// Create vertex for current position
+				positions.add(startX + col * incx); // x
+				positions.add(getHeight(col, row, width, heightMapData)); //y
+				positions.add(startZ + row * incz); //z
+				// Init normal entries
+				normals.add(0.0f);
+				normals.add(0.0f);
+				normals.add(0.0f);
+				// Set texture coordinates
+				textCoords.add((float) textInc * (float) col / (float) width) ;
+				textCoords.add((float) textInc * (float) row / (float) height);
+				// Create indices
+				if (col < width - 1 && row < height - 1) {
+					int leftTop = row * width + col;
+					int leftBottom = (row + 1) * width + col;
+					int rightBottom = (row + 1) * width + col + 1;
+					int rightTop = row * width + col + 1;
+					indices.add(rightTop);
+					indices.add(leftBottom);
+					indices.add(leftTop);
+					indices.add(rightBottom);
+					indices.add(leftBottom);
+					indices.add(rightTop);
+				}
+			}
+		}
+		
+		float[] posArr = Utils.listToArray(positions);
+		float[] textCoordsArr = Utils.listToArray(textCoords);
+		int[] indicesArr = indices.stream().mapToInt(i -> i).toArray();
+		// TODO: Add normal field to constructor
+		return new Mesh(posArr,textCoordsArr,indicesArr,texture);
+
 	}
 	
 }

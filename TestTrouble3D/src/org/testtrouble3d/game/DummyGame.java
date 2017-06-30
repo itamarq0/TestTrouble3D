@@ -8,6 +8,7 @@ import org.testtrouble3d.game.engine.renderer.Renderer;
 import org.testtrouble3d.game.engine.renderer.camera.Camera;
 import org.testtrouble3d.game.engine.renderer.renderables.GameItem;
 import org.testtrouble3d.game.engine.renderer.renderables.Mesh;
+import org.testtrouble3d.game.engine.renderer.shader.ShaderProgram;
 import org.testtrouble3d.game.engine.renderer.renderables.IRenderable;
 import org.testtrouble3d.game.engine.renderer.textures.Texture;
 import org.testtrouble3d.game.engine.window.KeyboardInput;
@@ -23,7 +24,10 @@ import org.lwjgl.system.*;
 
 import java.nio.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -44,13 +48,15 @@ public class DummyGame implements IGameLogic {
 	private int direction = 0;
 	private float color = 0.0f;
 	private final Renderer renderer;
-	private List<IRenderable> renderables;
+	private Map<String,IRenderable> renderables;
 	private Vector3f cameraInc;
+	
 	public DummyGame() {
 		renderer = new Renderer();
-		renderables = new ArrayList<IRenderable>();
+		renderables = new HashMap<String,IRenderable>();
 		cameraInc = new Vector3f();
 	}
+	
 	@Override
 	public void init() throws Exception {
 		System.out.println(texturesPath);
@@ -142,13 +148,13 @@ public class DummyGame implements IGameLogic {
         Texture texture = new Texture(texturesPath + "cube_texture.png");
 	    Mesh mesh = new Mesh(positions,textCoords,indices,texture);
 	    GameItem item = new GameItem(mesh);
-	    Mesh heightmap = HeightMapGenerator.generateHeightMap(heightMapsPath + "heightmap.png", texturesPath + "grass.jpg");
-	    heightmap.init();
 	    item.init();
-
-	    renderables.add(item);
-	    renderables.add(heightmap);
+	    renderables.put("cube",item);
+	    HeightMap map = new HeightMap(heightMapsPath + "heightmap.png", texturesPath + "grass.jpg");
+	    map.init();
+	    renderables.put("map",map);
 	}
+	
 	@Override
 	public void input(Window window, MouseInput mouseInput,KeyboardInput keyboardInput) {
 
@@ -169,6 +175,7 @@ public class DummyGame implements IGameLogic {
 	        cameraInc.y = 1;
 	    }
 	}
+	
 	@Override
 	public void update(float interval, MouseInput mouseInput,KeyboardInput keyboardInput) {
 		color += direction * 0.01f;
@@ -178,13 +185,13 @@ public class DummyGame implements IGameLogic {
 			color = 0.0f;
 		}
 		// Update rotation angle
-		GameItem item = (GameItem)renderables.get(0);
+		GameItem item = (GameItem)renderables.get("cube");
 		float rotation = item.getRotation().x + 1.5f;
 		if ( rotation > 360 ) {
 		    rotation = 0;
 		}
 		item.setPosition(0.0f, 0.0f, -2.0f);
-		//item.setRotation(rotation, rotation, rotation);
+		item.setRotation(rotation, rotation, rotation);
 		Camera camera = renderer.getCamera();
 	    // Update camera position
 	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
@@ -196,24 +203,29 @@ public class DummyGame implements IGameLogic {
 	        camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY * interval, rotVec.y * MOUSE_SENSITIVITY * interval, 0);
 	    }
 	}
+	
 	@Override
 	public void render(Window window) {
 		if ( window.isResized() ) {
 			glViewport(0, 0, window.getWidth(), window.getHeight());
 			window.setResized(false);
 		}
-		
 		window.setClearColor(color, color, color, 0.0f);
-		for(IRenderable entity: renderables){
-			renderer.render(window,entity);
+		renderer.clear();
+		for(Entry<String, IRenderable> entry : renderables.entrySet()) {
+		    String name = entry.getKey();
+		    IRenderable entity = entry.getValue();
+		    renderer.render(window, entity);
 		}
 		glfwSwapBuffers(window.getHandle());
 	}
+	
 	@Override
 	public void cleanup() {
 		renderer.cleanup();
-	    for(IRenderable entity: renderables){
-	    	entity.cleanUp();
-	    }
+		for(Entry<String, IRenderable> entry : renderables.entrySet()) {
+		    IRenderable entity = entry.getValue();
+		    entity.cleanUp();
+		}
 	}
 }
