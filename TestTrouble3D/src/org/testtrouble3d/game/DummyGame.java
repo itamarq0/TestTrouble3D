@@ -201,7 +201,7 @@ public class DummyGame implements IGameLogic {
 		HeightMap floor = (HeightMap)renderables.get("map");
 	    // Update camera position
 		System.out.println(floor.getHeight(camera.getPosition().x, camera.getPosition().z)+1.0f);
-		camera.setPosition(camera.getPosition().x,floor.getHeight(camera.getPosition().x, camera.getPosition().z) +0.5fA, camera.getPosition().z);
+		camera.setPosition(camera.getPosition().x,floor.getHeight(camera.getPosition().x, camera.getPosition().z) +0.5f, camera.getPosition().z);
 	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
 	    		0,
 	        cameraInc.z * CAMERA_POS_STEP * interval);
