@@ -50,11 +50,13 @@ public class DummyGame implements IGameLogic {
 	private final Renderer renderer;
 	private Map<String,IRenderable> renderables;
 	private Vector3f cameraInc;
+	private Vector3f blockInc;
 	
 	public DummyGame() {
 		renderer = new Renderer();
 		renderables = new HashMap<String,IRenderable>();
 		cameraInc = new Vector3f();
+		blockInc = new Vector3f();
 	}
 	
 	@Override
@@ -179,6 +181,28 @@ public class DummyGame implements IGameLogic {
 	    	cameraInc.y *=4;
 	    	cameraInc.z *=4;
 	    }
+/*		blockInc.set(0, 0, 0);
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_DOWN)) {
+	    	blockInc.z = -1;
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_UP)) {
+	    	blockInc.z = 1;
+	    }
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_RIGHT)) {
+	    	blockInc.x = -1;
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_LEFT)) {
+	    	blockInc.x = 1;
+	    }
+	    if (keyboardInput.isKeyPressed(GLFW_KEY_KP_0)) {
+	    	blockInc.y = -1;
+	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_KP_1)) {
+	    	blockInc.y = 1;
+	    }
+	    if(keyboardInput.isKeyPressed(GLFW_KEY_RIGHT_SHIFT)){
+	    	blockInc.x *=4;
+	    	blockInc.y *=4;
+	    	blockInc.z *=4;
+	    }*/
+	    
 	}
 	
 	@Override
@@ -200,12 +224,14 @@ public class DummyGame implements IGameLogic {
 		Camera camera = renderer.getCamera();
 		HeightMap floor = (HeightMap)renderables.get("map");
 	    // Update camera position
-		System.out.println(floor.getHeight(camera.getPosition().x, camera.getPosition().z)+1.0f);
+		//System.out.println(floor.getHeight(camera.getPosition().x, camera.getPosition().z)+1.0f);
 		camera.setPosition(camera.getPosition().x,floor.getHeight(camera.getPosition().x, camera.getPosition().z) +0.5f, camera.getPosition().z);
-	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
-	    		0,
-	        cameraInc.z * CAMERA_POS_STEP * interval);
-	    // Update camera based on mouse            
+	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval, 0, cameraInc.z * CAMERA_POS_STEP * interval);
+		//System.out.println(camera.getRotation());
+		//camera.setPosition(item.getPosition().x + 1.0f,item.getPosition().y + 1.0f, item.getPosition().z + 1.0f);
+		//item.setPosition(item.getPosition().x + blockInc.x * CAMERA_POS_STEP * interval ,floor.getHeight(item.getPosition().x, item.getPosition().z) +0.5f, item.getPosition().z + blockInc.z * CAMERA_POS_STEP * interval);
+
+		// Update camera based on mouse            
 	    if (mouseInput.isRightButtonPressed()) {
 	        Vector2f rotVec = mouseInput.getDisplVec();
 	        camera.moveRotation(rotVec.x * MOUSE_SENSITIVITY * interval, rotVec.y * MOUSE_SENSITIVITY * interval, 0);

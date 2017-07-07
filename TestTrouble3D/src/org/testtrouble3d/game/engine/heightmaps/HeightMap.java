@@ -44,7 +44,7 @@ public class HeightMap implements IRenderable{
 		//System.out.println(indexX);
 		int indexZ = (int) (Math.floor(z-position.z())/incZ);
 		//System.out.println(indexZ);
-		if(indexX < 0 || indexZ < 0 || indexX >= heightMapData.getWidth() || indexZ >= heightMapData.getHeight()){
+		if(indexX < 0 || indexZ < 0 || indexX >= heightMapData.getWidth()-1 || indexZ >= heightMapData.getHeight()-1){
 			return 0.0f;
 		}
 		float posX = position.x()+(indexX + 1)*incX;
@@ -63,7 +63,7 @@ public class HeightMap implements IRenderable{
 		posY = getVertexHeight(indexX, indexZ);
 		posZ = position.z()+(indexZ)*incZ;
 		Vector3f v3 = new Vector3f(posX,posY,posZ);
-		System.out.println(v3);
+		//System.out.println(v3);
 		return interpolateHeight(x, z, v1, v2, v3)+position.y();
 	}
 	
