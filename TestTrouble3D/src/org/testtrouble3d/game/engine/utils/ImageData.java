@@ -17,14 +17,13 @@ public class ImageData{
 			IntBuffer h = stack.mallocInt(1);
 			IntBuffer comp = stack.mallocInt(1);
 			imageData = stbi_load(path, w, h, comp, 4);
-			
 			if (imageData == null) {
 			    throw new RuntimeException("LoadImageFile::Failed to load a image file!" + System.lineSeparator() + stbi_failure_reason());
 			}
-			
 			width = w.get();
 			height = h.get();
 		}
+		System.out.println(imageData.remaining());
 	}
 	
 	public ImageData(ByteBuffer imageData,int width,int height){

@@ -38,11 +38,15 @@ public class HeightMapGenerator {
 
 
 	
-	private static float startX = -0.5f;
-	private static float maxY = 5.0f;
-	private static float minY = -5.0f;
-	private static float startZ = -0.5f;
+	private static float startX = 0;
+	private static float maxY = 10.0f;
+	private static float minY = 0.0f;
+	private static float startZ = 0;
 	private static final int MAX_COLOR = 255 * 255 * 255;
+	private static float incX = 1.0f;
+	private static float incZ = 1.0f;
+	private static float incTex = 30.0f;
+	
 
 	private HeightMapGenerator(){
 		
@@ -78,12 +82,44 @@ public class HeightMapGenerator {
 		HeightMapGenerator.minY = minY;
 	}
 	
+	public static void setIncX(float incX){
+		HeightMapGenerator.incX = incX;
+	}
+	
+	public static void setIncZ(float incZ){
+		HeightMapGenerator.incZ = incZ;
+	}
+	
+	public static void setIncTex(float incTex){
+		HeightMapGenerator.incTex = incTex;
+	}
+	
+	public static float getStartX(){
+		return HeightMapGenerator.startX;
+	}
+	
+	public static float getStartZ(){
+		return HeightMapGenerator.startZ;
+	}
+	
 	public static float getMaxY(){
 		return HeightMapGenerator.maxY;
 	}
 	
 	public static float getMinY(){
 		return HeightMapGenerator.minY;
+	}
+	
+	public static float getIncX(){
+		return HeightMapGenerator.incX;
+	}
+	
+	public static float getIncZ(){
+		return HeightMapGenerator.incZ;
+	}
+	
+	public static float getIncTex(){
+		return HeightMapGenerator.incTex;
 	}
 	
 	public static int getMaxColor(){
@@ -215,25 +251,16 @@ public class HeightMapGenerator {
 		List<Float> positions = new ArrayList<>();
 		List<Float> textCoords = new ArrayList<>();
 		List<Integer> indices = new ArrayList<>();
-		List<Float> normals = new ArrayList<>();
-		
-		int incx = 1;
-		int incz = 1;
-		int textInc = 30;
-		
+
 		for (int row = 0; row < height; row++) {
 			for (int col = 0; col < width; col++) {
 				// Create vertex for current position
-				positions.add(startX + col * incx); // x
+				positions.add(startX + col * incX); // x
 				positions.add(getHeight(col, row, width, heightMapData)); //y
-				positions.add(startZ + row * incz); //z
-				// Init normal entries
-				normals.add(0.0f);
-				normals.add(0.0f);
-				normals.add(0.0f);
+				positions.add(startZ + row * incZ); //z
 				// Set texture coordinates
-				textCoords.add((float) textInc * (float) col / (float) width) ;
-				textCoords.add((float) textInc * (float) row / (float) height);
+				textCoords.add((float) incTex * (float) col / (float) width) ;
+				textCoords.add((float) incTex * (float) row / (float) height);
 				// Create indices
 				if (col < width - 1 && row < height - 1) {
 					int leftTop = row * width + col;

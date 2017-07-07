@@ -174,6 +174,11 @@ public class DummyGame implements IGameLogic {
 	    } else if (keyboardInput.isKeyPressed(GLFW_KEY_X)) {
 	        cameraInc.y = 1;
 	    }
+	    if(keyboardInput.isKeyPressed(GLFW_KEY_LEFT_SHIFT)){
+	    	cameraInc.x *=4;
+	    	cameraInc.y *=4;
+	    	cameraInc.z *=4;
+	    }
 	}
 	
 	@Override
@@ -193,9 +198,12 @@ public class DummyGame implements IGameLogic {
 		item.setPosition(0.0f, 0.0f, -2.0f);
 		item.setRotation(rotation, rotation, rotation);
 		Camera camera = renderer.getCamera();
+		HeightMap floor = (HeightMap)renderables.get("map");
 	    // Update camera position
+		System.out.println(floor.getHeight(camera.getPosition().x, camera.getPosition().z)+1.0f);
+		camera.setPosition(camera.getPosition().x,floor.getHeight(camera.getPosition().x, camera.getPosition().z) +0.5fA, camera.getPosition().z);
 	    camera.movePosition(cameraInc.x * CAMERA_POS_STEP * interval,
-	        cameraInc.y * CAMERA_POS_STEP * interval,
+	    		0,
 	        cameraInc.z * CAMERA_POS_STEP * interval);
 	    // Update camera based on mouse            
 	    if (mouseInput.isRightButtonPressed()) {
